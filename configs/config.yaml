@@ -1,0 +1,27 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    db_user: root
+    db_password:
+    db_url: 127.0.0.1:3306
+    dry_run: false
+    max_idle_conns: 20
+    max_open_conns: 10
+    conn_max_life_time: 4h
+    db_name: wallet_local
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+    db: 0
+logger:
+  output_dir:
+  output_filename:
+  level: debug

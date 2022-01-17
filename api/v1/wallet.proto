@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package api.wallet.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/haappywater/virtualwallet/api/wallet/v1;v1";
+
+service Wallet {
+    // GetVirtualWallet 获取虚拟钱包
+    rpc GetVirtualWallet(GetVirtualWalletReq) returns (GetVirtualWalletResp) {
+        option (google.api.http) = {
+            post: "/api/v1/wallet/virtual_wallet/get"
+            body: "*"
+        };
+    };
+}
+
+message GetVirtualWalletReq {
+    uint64 user_id = 1;
+}
+
+message GetVirtualWalletResp {
+    VirtualWallet wallet = 1;
+}
+
+message VirtualWallet {
+    // 钱包ID
+    uint64 id = 1;
+    
+    // 用户ID
+    uint64 user_id = 2;
+    
+    // 总资产
+    string balance = 3;
+
+    // 冻结金额
+    string frozen_amount = 4;
+}
