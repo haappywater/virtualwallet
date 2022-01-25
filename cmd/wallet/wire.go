@@ -6,7 +6,9 @@
 package main
 
 import (
+	"github.com/haappywater/virtualwallet/internal/biz"
 	"github.com/haappywater/virtualwallet/internal/conf"
+	"github.com/haappywater/virtualwallet/internal/data"
 	"github.com/haappywater/virtualwallet/internal/server"
 	"github.com/haappywater/virtualwallet/internal/service"
 
@@ -17,5 +19,5 @@ import (
 
 // initApp init kratos application.
 func initApp(*conf.Server, *conf.Data, log.Logger) (*kratos.App, func(), error) {
-	panic(wire.Build(server.ProviderSet, service.ProviderSet, newApp))
+	panic(wire.Build(server.ProviderSet, service.ProviderSet, biz.ProviderSet, data.ProviderSet, newApp))
 }

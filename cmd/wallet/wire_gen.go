@@ -9,7 +9,9 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/haappywater/virtualwallet/internal/biz"
 	"github.com/haappywater/virtualwallet/internal/conf"
+	"github.com/haappywater/virtualwallet/internal/data"
 	"github.com/haappywater/virtualwallet/internal/server"
 	"github.com/haappywater/virtualwallet/internal/service"
 )
@@ -17,11 +19,20 @@ import (
 // Injectors from wire.go:
 
 // initApp init kratos application.
-func initApp(confServer *conf.Server, data *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	walletService := service.NewWalletService()
+func initApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+	db, cleanup, err := data.NewGormDB(confData)
+	if err != nil {
+		return nil, nil, err
+	}
+	dataData := data.NewData(db)
+	walletRepo := data.NewVirtualWalletRepo(dataData)
+	transcationRepo := data.NewTranscationRepo(dataData)
+	walletUseCase := biz.NewWalletUseCase(walletRepo, transcationRepo)
+	walletService := service.NewWalletService(walletUseCase)
 	httpServer := server.NewHTTPServer(confServer, logger, walletService)
 	grpcServer := server.NewGRPCServer(confServer, logger, walletService)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
+		cleanup()
 	}, nil
 }

@@ -12,6 +12,13 @@ type WalletUseCase struct {
 	transcationRepo TranscationRepo
 }
 
+func NewWalletUseCase(walletRepo WalletRepo, transcationRepo TranscationRepo) *WalletUseCase {
+	return &WalletUseCase{
+		walletRepo:      walletRepo,
+		transcationRepo: transcationRepo,
+	}
+}
+
 type WalletRepo interface {
 	// GetVirtualWallet 获取虚拟钱包模型
 	GetVirtualWallet(ctx context.Context, userID uint) (*types.VirtualWallet, error)

@@ -23,6 +23,7 @@ func NewGormDB(conf *conf.Data) (*gorm.DB, func(), error) {
 
 	db.AutoMigrate(
 		&VirtualWallet{},
+		&Transcation{},
 	)
 
 	return db, func() {
