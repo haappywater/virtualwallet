@@ -8,14 +8,8 @@ server:
 data:
   database:
     driver: mysql
-    db_user: root
-    db_password:
-    db_url: 127.0.0.1:3306
-    dry_run: false
-    max_idle_conns: 20
-    max_open_conns: 10
-    conn_max_life_time: 4h
-    db_name: wallet_local
+    # refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
+    source: "root:root@tcp(127.0.0.1:3306)/wallet_local?charset=utf8mb4&parseTime=True&loc=Local"
   redis:
     addr: 127.0.0.1:6379
     read_timeout: 0.2s
